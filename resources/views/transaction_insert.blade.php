@@ -36,6 +36,9 @@
                         @foreach($barangs as $barang)
                         <option value="{{$barang->id}}">{{$barang->name_item}}</option>
                         @endforeach
+                        @foreach($barangs as $barang)
+                        <input id="data-{{$barang->id}}" value="{{$barang->price_item}}" hidden >
+                        @endforeach
                     </select>
 
                     @if($errors->has('id_item'))
@@ -46,7 +49,7 @@
                     <br>
 
                     <label>Jumlah Barang</label>
-                    <input type="number" name="amount_of_items" class="form-control" placeholder="10">
+                    <input id="jumlah_barang" type="number" name="amount_of_items" class="form-control" placeholder="10" onchange="myScript()">
 
                     @if($errors->has('amount_of_items'))
                     <div class="text-danger">
@@ -55,7 +58,8 @@
                     @endif
 
                     <label>Total Transaksi</label>
-                    <input type="number" name="total_transaction" class="form-control" placeholder="25000">
+                    <p id="total_transaksi2"> </p>
+                    <input hidden id="total_transaksi" type="number" name="total_transaction" class="form-control" placeholder="25000">
 
                     @if($errors->has('total_transaction'))
                     <div class="text-danger">
@@ -75,3 +79,14 @@
     </div>
 </div>
 @endsection('content')
+
+@push('scripts')
+<script type="text/javascript">
+function myScript(){
+   var total_transaksi = (document.getElementById("data-"+document.getElementById("id_item").value).value )*(document.getElementById("jumlah_barang").value)
+   document.getElementById("total_transaksi").value = total_transaksi
+   var x = document.getElementById("total_transaksi2")
+   x.innerHTML = "Rp "+total_transaksi+" ,-"
+}
+</script>
+@endpush
